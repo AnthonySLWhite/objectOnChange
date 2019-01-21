@@ -1,10 +1,36 @@
 import onChange from './app';
 
-const watch = {};
-watch.list = onChange(e => console.log('Changed!', e), []);
-watch.list[0] = 5;
-watch.list[3] = 67;
-console.log(watch.list);
+const originalObject = { a: 1 };
+const objectWatch = onChange(
+  e =>
+    console.log(`The value was changed to ${JSON.stringify(e)}`),
+  originalObject,
+  1,
+);
+console.log('Original:', objectWatch);
+// Original: { a: 1, SetState: [Function] }
+objectWatch.a = 2;
+// console.log(objectWatch);
+// The value was changed to 2
+objectWatch.SetState({
+  b: 34,
+  c: 9,
+  d: {
+    anotherChain: 4,
+  },
+});
+// The value was changed to {b:34,c:9}
+console.log(
+  'Chained changes watcher and SetState: ',
+  objectWatch.d,
+);
+//{a:}
+
+// const watch = {};
+// watch.list = onChange(e => console.log('Changed!', e), []);
+// watch.list[0] = 5;
+// watch.list[3] = 67;
+// console.log(watch.list);
 // watch.list.a = { b: 5 };
 // watch.list.a.SetState({ hello: 'Works' });
 // watch.list.b = {};

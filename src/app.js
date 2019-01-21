@@ -52,7 +52,7 @@ const onChange = (onChange, object = {}, setStateStatus = 0) => {
         return target;
       }
 
-      const value = Reflect.get(target, property, receiver);
+      let value = Reflect.get(target, property, receiver);
       if (isPrimitive(value)) {
         return value;
       }
@@ -71,7 +71,7 @@ const onChange = (onChange, object = {}, setStateStatus = 0) => {
           return value;
         }
       }
-
+      value = createSetState(value);
       return new Proxy(value, handler);
     },
 
@@ -86,16 +86,8 @@ const onChange = (onChange, object = {}, setStateStatus = 0) => {
         value,
         receiver,
       );
-      if (setStateStatus) {
-        if (!Array.isArray(value) && typeof value === 'object') {
-          value.SetState = function(obj) {
-            Object.keys(obj).map(
-              prop => (value[prop] = obj[prop]),
-            );
-            handleChange(obj);
-          };
-        }
-      }
+      value = createSetState(value);
+      console.log('here');
       const result = Reflect.set(target, property, value);
 
       if (previous !== value) {
@@ -112,7 +104,6 @@ const onChange = (onChange, object = {}, setStateStatus = 0) => {
         descriptor,
       );
       invalidateCachedDescriptor(target, property);
-
       handleChange(target);
 
       return result;
@@ -149,7 +140,22 @@ const onChange = (onChange, object = {}, setStateStatus = 0) => {
       return Reflect.apply(target, thisArg, argumentsList);
     },
   };
-
+  function createSetState(obj) {
+    if (setStateStatus) {
+      if (!Array.isArray(obj) && typeof obj === 'object') {
+        obj.SetState = function(props) {
+          Object.keys(props).map(
+            prop => (obj[prop] = props[prop]),
+          );
+          handleChange(obj);
+          return obj;
+        };
+        return obj;
+      }
+    }
+    return obj;
+  }
+  object = createSetState(object);
   return new Proxy(object, handler);
 };
 
