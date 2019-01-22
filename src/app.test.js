@@ -10,8 +10,8 @@ const objectWatch = onChange(
 console.log('Original:', objectWatch);
 // Original: { a: 1, SetState: [Function] }
 objectWatch.a = 2;
-// console.log(objectWatch);
 // The value was changed to 2
+
 objectWatch.SetState({
   b: 34,
   c: 9,

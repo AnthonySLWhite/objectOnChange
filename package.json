@@ -14,9 +14,7 @@
   "author": "Anthony White",
   "main": "prod/app.js",
   "license": "MIT",
-  "dependencies": {
-    "@babel/polyfill": "^7.2.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",

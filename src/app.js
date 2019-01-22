@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 const isPrimitive = value =>
   value === null ||
   (typeof value !== 'object' && typeof value !== 'function');
@@ -87,7 +86,6 @@ const onChange = (onChange, object = {}, setStateStatus = 0) => {
         receiver,
       );
       value = createSetState(value);
-      console.log('here');
       const result = Reflect.set(target, property, value);
 
       if (previous !== value) {
