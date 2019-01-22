@@ -1,6 +1,6 @@
 {
   "name": "swift-onchange",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Trigger function on object, array or primitive value change",
   "scripts": {
     "start": "nps",
