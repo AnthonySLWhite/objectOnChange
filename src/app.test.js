@@ -2,8 +2,7 @@ import onChange from './app';
 
 const originalObject = { a: 1 };
 const objectWatch = onChange(
-  e =>
-    console.log(`The value was changed to ${JSON.stringify(e)}`),
+  e => console.log(`The object: ${JSON.stringify(objectWatch)}`),
   originalObject,
   1,
 );
@@ -24,6 +23,8 @@ console.log(
   'Chained changes watcher and SetState: ',
   objectWatch.d,
 );
+
+objectWatch.a = { b: { c: 5 } };
 //{a:}
 
 // const watch = {};
